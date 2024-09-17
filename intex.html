@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluxograma Interativo - Tesouro Perdido</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+        .step {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            position: relative;
+            display: inline-block;
+            width: 250px;
+            height: 150px;
+        }
+        .step:hover {
+            background-color: #e0e0e0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .description {
+            display: none;
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            width: 200px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+        .step:hover .description {
+            display: block;
+        }
+        .hidden {
+            display: none;
+        }
+        .line {
+            border-left: 2px solid #333;
+            height: 50px;
+            margin: 0 auto;
+            transition: height 0.3s;
+        }
+        .line.hidden {
+            height: 0;
+        }
+        .next-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .next-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="step1" class="step" onclick="showStep('step2')">
+            Tesouro Perdido em Michigan
+            <div class="description">O tesouro foi escondido em Michigan há séculos.</div>
+        </div>
+        <div id="line1" class="line hidden"></div>
+
+        <div id="step2" class="step hidden" onclick="showStep('step3')">
+            Exploração da Região
+            <div class="description">A exploração revelou alguns indícios valiosos.</div>
+        </div>
+        <div id="line2" class="line hidden"></div>
+
+        <div id="step3" class="step hidden" onclick="showStep('step4')">
+            Indícios Levam a Nova York
+            <div class="description">Seguindo as pistas, encontramos novas informações.</div>
+        </div>
+        <div id="line3" class="line hidden"></div>
+
+        <div id="step4" class="step hidden" onclick="showStep('step5')">
+            Investigação em Nova York
+            <div class="description">A investigação em Nova York revelou mais detalhes.</div>
+        </div>
+        <div id="line4" class="line hidden"></div>
+
+        <div id="step5" class="step hidden" onclick="showStep('step6')">
+            Rumo ao Texas
+            <div class="description">A pista final nos leva ao Texas.</div>
+        </div>
+        <div id="line5" class="line hidden"></div>
+
+        <div id="step6" class="step hidden">
+            Desenterrando o Tesouro
+            <div class="description">Finalmente, encontramos o tesouro!</div>
+        </div>
+
+        <button id="nextButton" class="next-button" onclick="nextStep()">Próxima Etapa</button>
+    </div>
+
+    <script>
+        let currentStepIndex = 1;
+        const steps = ['step1', 'step2', 'step3', 'step4', 'step5', 'step6'];
+        
+        function showStep(stepId) {
+            const index = steps.indexOf(stepId);
+            if (index === -1) return;
+
+            // Ocultar todos os passos e linhas
+            steps.forEach((step, i) => {
+                const element = document.getElementById(step);
+                const line = document.getElementById('line' + i);
+                if (element) element.classList.add('hidden');
+                if (line) line.classList.add('hidden');
+            });
+
+            // Mostrar o passo atual e a linha anterior
+            const currentStep = document.getElementById(stepId);
+            const previousLine = document.getElementById('line' + (index - 1));
+            if (previousLine) previousLine.classList.remove('hidden');
+            if (currentStep) currentStep.classList.remove('hidden');
+        }
+
+        function nextStep() {
+            if (currentStepIndex < steps.length) {
+                showStep(steps[currentStepIndex]);
+                currentStepIndex++;
+            }
+        }
+
+        // Mostrar a primeira etapa ao carregar a página
+        showStep(steps[0]);
+    </script>
+</body>
+</html>
